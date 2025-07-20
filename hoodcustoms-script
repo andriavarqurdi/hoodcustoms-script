@@ -1,0 +1,721 @@
+--[[
+    Hood Customs Camlock & Rapid Fire GUI (Narsidze Extra Edition, Fresh Purple Theme, Key System)
+    - Key system: requires user to enter "TESTKEY123" before script runs.
+    - Modern purple theme, animated GUI, camlock, rapid fire, FOV, advanced features, premium watermark.
+    - All features from previous version, now with key system.
+]]
+
+local KEY = "TESTKEY123"
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Workspace = game:GetService("Workspace")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local StarterGui = game:GetService("StarterGui")
+
+-------------------------------
+-- Key System GUI
+-------------------------------
+local keyGui = Instance.new("ScreenGui")
+keyGui.Name = "NarsoKeySystem"
+keyGui.Parent = game.CoreGui
+keyGui.ResetOnSpawn = false
+
+local keyFrame = Instance.new("Frame", keyGui)
+keyFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+keyFrame.Position = UDim2.new(0.5,0,0.48,0)
+keyFrame.Size = UDim2.new(0, 340, 0, 146)
+keyFrame.BackgroundColor3 = Color3.fromRGB(80, 52, 120)
+keyFrame.BorderSizePixel = 0
+keyFrame.ZIndex = 1000
+keyFrame.Active = true
+
+local keyCorner = Instance.new("UICorner", keyFrame)
+keyCorner.CornerRadius = UDim.new(0, 28)
+
+local keyTitle = Instance.new("TextLabel", keyFrame)
+keyTitle.Size = UDim2.new(1, 0, 0, 36)
+keyTitle.Position = UDim2.new(0, 0, 0, 0)
+keyTitle.BackgroundTransparency = 1
+keyTitle.Text = "🔑 Enter Script Key"
+keyTitle.TextColor3 = Color3.fromRGB(187, 134, 252)
+keyTitle.Font = Enum.Font.FredokaOne
+keyTitle.TextScaled = true
+keyTitle.ZIndex = 1001
+
+local keyInput = Instance.new("TextBox", keyFrame)
+keyInput.Size = UDim2.new(0.85, 0, 0, 36)
+keyInput.Position = UDim2.new(0.075,0,0,48)
+keyInput.Text = ""
+keyInput.PlaceholderText = "Enter key here..."
+keyInput.BackgroundColor3 = Color3.fromRGB(116, 72, 192)
+keyInput.TextColor3 = Color3.fromRGB(240,240,255)
+keyInput.Font = Enum.Font.GothamSemibold
+keyInput.TextScaled = true
+keyInput.ZIndex = 1001
+local keyInputCorner = Instance.new("UICorner", keyInput)
+keyInputCorner.CornerRadius = UDim.new(0, 14)
+
+local keyBtn = Instance.new("TextButton", keyFrame)
+keyBtn.Size = UDim2.new(0.7,0,0,32)
+keyBtn.Position = UDim2.new(0.15,0,0,96)
+keyBtn.Text = "Unlock"
+keyBtn.BackgroundColor3 = Color3.fromRGB(187, 134, 252)
+keyBtn.TextColor3 = Color3.fromRGB(60,37,90)
+keyBtn.Font = Enum.Font.GothamBold
+keyBtn.TextScaled = true
+keyBtn.ZIndex = 1001
+local keyBtnCorner = Instance.new("UICorner", keyBtn)
+keyBtnCorner.CornerRadius = UDim.new(0,12)
+
+local keyNotif = Instance.new("TextLabel", keyFrame)
+keyNotif.Size = UDim2.new(1, -20, 0, 20)
+keyNotif.Position = UDim2.new(0, 10, 1, -28)
+keyNotif.BackgroundTransparency = 1
+keyNotif.Text = ""
+keyNotif.TextScaled = true
+keyNotif.TextColor3 = Color3.fromRGB(255,60,60)
+keyNotif.Font = Enum.Font.GothamSemibold
+keyNotif.ZIndex = 1001
+
+local unlocked = false
+
+keyBtn.MouseButton1Click:Connect(function()
+    if keyInput.Text == KEY then
+        unlocked = true
+        TweenService:Create(keyFrame, TweenInfo.new(0.6, Enum.EasingStyle.Back), {Size = UDim2.new(0,0,0,0)}):Play()
+        StarterGui:SetCore("SendNotification", {
+            Title = "Key Accepted!";
+            Text = "Welcome to Narsidze Cheat Extra Edition!";
+            Duration = 4;
+        })
+        wait(0.65)
+        keyGui:Destroy()
+    else
+        keyNotif.Text = "Incorrect key!"
+        TweenService:Create(keyNotif, TweenInfo.new(0.2), {TextColor3 = Color3.fromRGB(255,60,60)}):Play()
+        wait(0.7)
+        keyNotif.Text = ""
+    end
+end)
+
+repeat wait() until unlocked
+
+-------------------------------
+-- Main Purple GUI
+-------------------------------
+local gui = Instance.new("ScreenGui")
+gui.Name = "HoodCustomsPurpleNarso"
+gui.Parent = game.CoreGui
+gui.ResetOnSpawn = false
+
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 360, 0, 180)
+frame.Position = UDim2.new(0.10, 0, 0.07, 0)
+frame.BackgroundColor3 = Color3.fromRGB(60, 37, 90) -- Deep purple
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.ZIndex = 10
+
+local corner = Instance.new("UICorner", frame)
+corner.CornerRadius = UDim.new(0, 28)
+
+local accent = Instance.new("Frame", frame)
+accent.Position = UDim2.new(0, 0, 0, 0)
+accent.Size = UDim2.new(1, 0, 0, 16)
+accent.BackgroundColor3 = Color3.fromRGB(187, 134, 252) -- Light purple accent
+accent.BorderSizePixel = 0
+local accentCorner = Instance.new("UICorner", accent)
+accentCorner.CornerRadius = UDim.new(0, 12)
+accent.ZIndex = 11
+
+local glow = Instance.new("ImageLabel", frame)
+glow.Position = UDim2.new(0.5, -180, 0.5, -90)
+glow.Size = UDim2.new(0, 360, 0, 180)
+glow.BackgroundTransparency = 1
+glow.Image = "rbxassetid://2583492733"
+glow.ImageTransparency = 0.85
+glow.ZIndex = 1
+
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1, 0, 0, 38)
+title.Text = "💜 Hood Customs Cheat Extra"
+title.BackgroundTransparency = 1
+title.TextScaled = true
+title.TextColor3 = Color3.fromRGB(187, 134, 252)
+title.Font = Enum.Font.FredokaOne
+title.ZIndex = 12
+
+local camlockStatus = Instance.new("TextLabel", frame)
+camlockStatus.Size = UDim2.new(1, -20, 0, 22)
+camlockStatus.Position = UDim2.new(0, 10, 0, 46)
+camlockStatus.BackgroundTransparency = 1
+camlockStatus.Text = "Camlock: OFF"
+camlockStatus.TextScaled = true
+camlockStatus.TextColor3 = Color3.fromRGB(240,240,255)
+camlockStatus.Font = Enum.Font.GothamBold
+camlockStatus.ZIndex = 12
+
+local rapidBtn = Instance.new("TextButton", frame)
+rapidBtn.Size = UDim2.new(0.43, 0, 0, 32)
+rapidBtn.Position = UDim2.new(0.04, 0, 0, 88)
+rapidBtn.Text = "Rapid Fire: OFF"
+rapidBtn.BackgroundColor3 = Color3.fromRGB(116, 72, 192)
+rapidBtn.TextColor3 = Color3.fromRGB(240,240,255)
+rapidBtn.Font = Enum.Font.GothamBold
+rapidBtn.TextScaled = true
+rapidBtn.ZIndex = 12
+local btnCorner = Instance.new("UICorner", rapidBtn)
+btnCorner.CornerRadius = UDim.new(0, 12)
+
+local fovBtn = Instance.new("TextButton", frame)
+fovBtn.Size = UDim2.new(0.43, 0, 0, 32)
+fovBtn.Position = UDim2.new(0.53, 10, 0, 88)
+fovBtn.Text = "FOV: OFF"
+fovBtn.BackgroundColor3 = Color3.fromRGB(116, 72, 192)
+fovBtn.TextColor3 = Color3.fromRGB(240,240,255)
+fovBtn.Font = Enum.Font.GothamBold
+fovBtn.TextScaled = true
+fovBtn.ZIndex = 12
+local fovBtnCorner = Instance.new("UICorner", fovBtn)
+fovBtnCorner.CornerRadius = UDim.new(0, 12)
+
+local watermark = Instance.new("TextLabel", frame)
+watermark.Size = UDim2.new(1, -20, 0, 22)
+watermark.Position = UDim2.new(0, 10, 1, -32)
+watermark.BackgroundTransparency = 1
+watermark.Text = "Made by Narsidze | Discord: narso9895"
+watermark.TextScaled = true
+watermark.TextColor3 = Color3.fromRGB(187, 134, 252)
+watermark.Font = Enum.Font.FredokaOne
+watermark.ZIndex = 12
+
+frame.Position = UDim2.new(0.5, -180, 0.5, -90)
+frame.Size = UDim2.new(0,0,0,0)
+TweenService:Create(frame, TweenInfo.new(1, Enum.EasingStyle.Back), {Position = UDim2.new(0.10, 0, 0.07, 0), Size = UDim2.new(0,360,0,180)}):Play()
+
+-- Dragging
+local dragging, dragInput, dragStart, frameStart = false, nil, nil, nil
+frame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = Vector2.new(input.Position.X, input.Position.Y)
+        frameStart = frame.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+frame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+UserInputService.InputChanged:Connect(function(input)
+    if dragging and input == dragInput then
+        local delta = Vector2.new(input.Position.X, input.Position.Y) - dragStart
+        local newPos = UDim2.new(frameStart.X.Scale, frameStart.X.Offset + delta.X, frameStart.Y.Scale, frameStart.Y.Offset + delta.Y)
+        frame.Position = newPos
+    end
+end)
+
+-------------------------------
+-- Stylish Purple Target Info GUI (Fresh, Draggable, Expanded, Middle Right)
+-------------------------------
+local infoGui = Instance.new("ScreenGui")
+infoGui.Name = "CamlockTargetInfoNarsoPurple"
+infoGui.Parent = game.CoreGui
+infoGui.ResetOnSpawn = false
+
+local infoFrame = Instance.new("Frame", infoGui)
+infoFrame.Size = UDim2.new(0, 420, 0, 390)
+infoFrame.Position = UDim2.new(0.74, 0, 0.36, 0)
+infoFrame.BackgroundColor3 = Color3.fromRGB(80, 52, 120)
+infoFrame.BorderSizePixel = 0
+infoFrame.Visible = false
+infoFrame.Active = true
+infoFrame.ZIndex = 100
+
+local infoCorner = Instance.new("UICorner", infoFrame)
+infoCorner.CornerRadius = UDim.new(0, 36)
+
+local infoAccent = Instance.new("Frame", infoFrame)
+infoAccent.Position = UDim2.new(0, 0, 0, 0)
+infoAccent.Size = UDim2.new(1, 0, 0, 16)
+infoAccent.BackgroundColor3 = Color3.fromRGB(187, 134, 252)
+infoAccent.BorderSizePixel = 0
+local infoAccentCorner = Instance.new("UICorner", infoAccent)
+infoAccentCorner.CornerRadius = UDim.new(0, 14)
+infoAccent.ZIndex = 101
+
+local infoTitle = Instance.new("TextLabel", infoFrame)
+infoTitle.Size = UDim2.new(1, 0, 0, 38)
+infoTitle.Position = UDim2.new(0, 0, 0, 0)
+infoTitle.BackgroundTransparency = 1
+infoTitle.Text = "💜 Camlock Target Info"
+infoTitle.TextScaled = true
+infoTitle.TextColor3 = Color3.fromRGB(187, 134, 252)
+infoTitle.Font = Enum.Font.FredokaOne
+infoTitle.ZIndex = 102
+
+local infoList = {}
+local y = 44
+local function newInfoLabel(text)
+    local lbl = Instance.new("TextLabel", infoFrame)
+    lbl.Size = UDim2.new(1, -30, 0, 21)
+    lbl.Position = UDim2.new(0, 15, 0, y)
+    lbl.BackgroundTransparency = 1
+    lbl.Text = text
+    lbl.TextScaled = true
+    lbl.TextColor3 = Color3.fromRGB(240,240,255)
+    lbl.Font = Enum.Font.GothamSemibold
+    lbl.ZIndex = 102
+    y = y + 22
+    table.insert(infoList, lbl)
+    return lbl
+end
+
+local lblName      = newInfoLabel("Name: ")
+local lblDisplay   = newInfoLabel("DisplayName: ")
+local lblUserId    = newInfoLabel("UserId: ")
+local lblAccAge    = newInfoLabel("Account Age: ")
+local lblHealth    = newInfoLabel("Health: ")
+local lblMaxHealth = newInfoLabel("Max Health: ")
+local lblDistance  = newInfoLabel("Distance: ")
+local lblTeam      = newInfoLabel("Team: ")
+local lblTool      = newInfoLabel("Current Tool: ")
+local lblWalkSpeed = newInfoLabel("WalkSpeed: ")
+local lblJumpPower = newInfoLabel("JumpPower: ")
+local lblFriend    = newInfoLabel("Friend: ")
+local lblESPTool   = newInfoLabel("Tool ESP: ")
+local lblHighlight = newInfoLabel("Highlight: ")
+
+local spectateBtn = Instance.new("TextButton", infoFrame)
+spectateBtn.Size = UDim2.new(0.29,0,0,28)
+spectateBtn.Position = UDim2.new(0.03,0,1,-93)
+spectateBtn.Text = "Spectate"
+spectateBtn.BackgroundColor3 = Color3.fromRGB(116, 72, 192)
+spectateBtn.TextColor3 = Color3.fromRGB(240,240,255)
+spectateBtn.Font = Enum.Font.GothamBold
+spectateBtn.TextScaled = true
+spectateBtn.ZIndex = 103
+local spectateCorner = Instance.new("UICorner", spectateBtn)
+spectateCorner.CornerRadius = UDim.new(0,12)
+
+local unspectateBtn = Instance.new("TextButton", infoFrame)
+unspectateBtn.Size = UDim2.new(0.29,0,0,28)
+unspectateBtn.Position = UDim2.new(0.33,7,1,-93)
+unspectateBtn.Text = "Unspectate"
+unspectateBtn.BackgroundColor3 = Color3.fromRGB(116, 72, 192)
+unspectateBtn.TextColor3 = Color3.fromRGB(240,240,255)
+unspectateBtn.Font = Enum.Font.GothamBold
+unspectateBtn.TextScaled = true
+unspectateBtn.ZIndex = 103
+local unspectateCorner = Instance.new("UICorner", unspectateBtn)
+unspectateCorner.CornerRadius = UDim.new(0,12)
+
+local copyBtn = Instance.new("TextButton", infoFrame)
+copyBtn.Size = UDim2.new(0.29,0,0,28)
+copyBtn.Position = UDim2.new(0.63,14,1,-93)
+copyBtn.Text = "Copy Info"
+copyBtn.BackgroundColor3 = Color3.fromRGB(116, 72, 192)
+copyBtn.TextColor3 = Color3.fromRGB(240,240,255)
+copyBtn.Font = Enum.Font.GothamBold
+copyBtn.TextScaled = true
+copyBtn.ZIndex = 103
+local copyCorner = Instance.new("UICorner", copyBtn)
+copyCorner.CornerRadius = UDim.new(0,12)
+
+local tpBtn = Instance.new("TextButton", infoFrame)
+tpBtn.Size = UDim2.new(0.94,0,0,28)
+tpBtn.Position = UDim2.new(0.03,0,1,-62)
+tpBtn.Text = "Teleport To Target"
+tpBtn.BackgroundColor3 = Color3.fromRGB(116, 72, 192)
+tpBtn.TextColor3 = Color3.fromRGB(240,240,255)
+tpBtn.Font = Enum.Font.GothamBold
+tpBtn.TextScaled = true
+tpBtn.ZIndex = 103
+local tpCorner = Instance.new("UICorner", tpBtn)
+tpCorner.CornerRadius = UDim.new(0,12)
+
+local killAllBtn = Instance.new("TextButton", infoFrame)
+killAllBtn.Size = UDim2.new(0.45,0,0,28)
+killAllBtn.Position = UDim2.new(0.03,0,1,-32)
+killAllBtn.Text = "Kill All"
+killAllBtn.BackgroundColor3 = Color3.fromRGB(187, 134, 252)
+killAllBtn.TextColor3 = Color3.fromRGB(60,37,90)
+killAllBtn.Font = Enum.Font.GothamBold
+killAllBtn.TextScaled = true
+killAllBtn.ZIndex = 104
+local killAllCorner = Instance.new("UICorner", killAllBtn)
+killAllCorner.CornerRadius = UDim.new(0,12)
+
+local healBtn = Instance.new("TextButton", infoFrame)
+healBtn.Size = UDim2.new(0.45,0,0,28)
+healBtn.Position = UDim2.new(0.52,14,1,-32)
+healBtn.Text = "Loop Heal"
+healBtn.BackgroundColor3 = Color3.fromRGB(187, 134, 252)
+healBtn.TextColor3 = Color3.fromRGB(60,37,90)
+healBtn.Font = Enum.Font.GothamBold
+healBtn.TextScaled = true
+healBtn.ZIndex = 104
+local healCorner = Instance.new("UICorner", healBtn)
+healCorner.CornerRadius = UDim.new(0,12)
+
+local refreshBtn = Instance.new("TextButton", infoFrame)
+refreshBtn.Size = UDim2.new(0.94,0,0,22)
+refreshBtn.Position = UDim2.new(0.03,0,1,-3)
+refreshBtn.Text = "Refresh Info"
+refreshBtn.BackgroundColor3 = Color3.fromRGB(116, 72, 192)
+refreshBtn.TextColor3 = Color3.fromRGB(240,240,255)
+refreshBtn.Font = Enum.Font.GothamBold
+refreshBtn.TextScaled = true
+refreshBtn.ZIndex = 103
+local refreshCorner = Instance.new("UICorner", refreshBtn)
+refreshCorner.CornerRadius = UDim.new(0,10)
+
+local rainbowBtn = Instance.new("TextButton", infoFrame)
+rainbowBtn.Size = UDim2.new(0.94,0,0,22)
+rainbowBtn.Position = UDim2.new(0.03,0,1,-28)
+rainbowBtn.Text = "Rainbow Outline: OFF"
+rainbowBtn.BackgroundColor3 = Color3.fromRGB(116, 72, 192)
+rainbowBtn.TextColor3 = Color3.fromRGB(240,240,255)
+rainbowBtn.Font = Enum.Font.GothamBold
+rainbowBtn.TextScaled = true
+rainbowBtn.ZIndex = 103
+local rbCorner = Instance.new("UICorner", rainbowBtn)
+rbCorner.CornerRadius = UDim.new(0,10)
+
+local infoWatermark = Instance.new("TextLabel", infoFrame)
+infoWatermark.Size = UDim2.new(1, -20, 0, 22)
+infoWatermark.Position = UDim2.new(0, 10, 1, -58)
+infoWatermark.BackgroundTransparency = 1
+infoWatermark.Text = "Made by Narsidze | Discord: narso9895"
+infoWatermark.TextScaled = true
+infoWatermark.TextColor3 = Color3.fromRGB(187,134,252)
+infoWatermark.Font = Enum.Font.FredokaOne
+infoWatermark.ZIndex = 102
+
+infoFrame.Position = UDim2.new(0.5, -210, 0.5, -140)
+infoFrame.Size = UDim2.new(0,0,0,0)
+TweenService:Create(infoFrame, TweenInfo.new(1, Enum.EasingStyle.Back), {Position = UDim2.new(0.74, 0, 0.36, 0), Size = UDim2.new(0,420,0,390)}):Play()
+
+-- Dragging for infoFrame
+local draggingInfo, dragInputInfo, dragStartInfo, frameStartInfo = false, nil, nil, nil
+infoFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        draggingInfo = true
+        dragStartInfo = Vector2.new(input.Position.X, input.Position.Y)
+        frameStartInfo = infoFrame.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                draggingInfo = false
+            end
+        end)
+    end
+end)
+infoFrame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInputInfo = input
+    end
+end)
+UserInputService.InputChanged:Connect(function(input)
+    if draggingInfo and input == dragInputInfo then
+        local delta = Vector2.new(input.Position.X, input.Position.Y) - dragStartInfo
+        local newPos = UDim2.new(frameStartInfo.X.Scale, frameStartInfo.X.Offset + delta.X, frameStartInfo.Y.Scale, frameStartInfo.Y.Offset + delta.Y)
+        infoFrame.Position = newPos
+    end
+end)
+
+-------------------------------
+-- FOV Circle (Purple, Toggle)
+-------------------------------
+local fovCircle = Drawing and Drawing.new("Circle")
+if fovCircle then
+    fovCircle.Visible = false
+    fovCircle.Color = Color3.fromRGB(187,134,252)
+    fovCircle.Filled = false
+    fovCircle.Radius = 80
+    fovCircle.Thickness = 2
+    fovCircle.Position = Vector2.new(Workspace.CurrentCamera.ViewportSize.X/2, Workspace.CurrentCamera.ViewportSize.Y/2)
+    RunService.RenderStepped:Connect(function()
+        if fovCircle and fovCircle.Visible then
+            fovCircle.Position = Vector2.new(Workspace.CurrentCamera.ViewportSize.X/2, Workspace.CurrentCamera.ViewportSize.Y/2)
+        end
+    end)
+end
+
+local fovEnabled = false
+fovBtn.MouseButton1Click:Connect(function()
+    fovEnabled = not fovEnabled
+    fovBtn.Text = "FOV: " .. (fovEnabled and "ON" or "OFF")
+    if fovCircle then fovCircle.Visible = fovEnabled end
+end)
+
+-------------------------------
+-- Camlock Logic with Target Info
+-------------------------------
+local camlockEnabled = false
+local camlockTarget = nil
+local highlightObj = nil
+local rainbowOutline = false
+
+local function updateTargetInfo()
+    if camlockTarget and camlockTarget.Character and camlockTarget.Character:FindFirstChild("Head") then
+        local human = camlockTarget.Character:FindFirstChildOfClass("Humanoid")
+        local health = human and math.floor(human.Health) or "?"
+        local maxHealth = human and math.floor(human.MaxHealth) or "?"
+        local dist = (Workspace.CurrentCamera.CFrame.Position - camlockTarget.Character.Head.Position).Magnitude
+        local team = (camlockTarget.Team and camlockTarget.Team.Name) or "None"
+        local tool = ""
+        if camlockTarget.Character then
+            for _,t in ipairs(camlockTarget.Character:GetChildren()) do
+                if t:IsA("Tool") then tool = t.Name break end
+            end
+        end
+        local walkspeed, jumppower = "?", "?"
+        if human then
+            walkspeed = human.WalkSpeed
+            jumppower = human.JumpPower
+        end
+        local isFriend = false
+        pcall(function()
+            isFriend = LocalPlayer:IsFriendsWith(camlockTarget.UserId)
+        end)
+        lblName.Text      = "Name: " .. tostring(camlockTarget.Name)
+        lblDisplay.Text   = "DisplayName: " .. tostring(camlockTarget.DisplayName)
+        lblUserId.Text    = "UserId: " .. tostring(camlockTarget.UserId)
+        lblAccAge.Text    = "Account Age: " .. tostring(camlockTarget.AccountAge) .. " days"
+        lblHealth.Text    = "Health: " .. tostring(health)
+        lblMaxHealth.Text = "Max Health: " .. tostring(maxHealth)
+        lblDistance.Text  = "Distance: " .. string.format("%.1f studs", dist)
+        lblTeam.Text      = "Team: " .. tostring(team)
+        lblTool.Text      = "Current Tool: " .. (tool ~= "" and tool or "None")
+        lblWalkSpeed.Text = "WalkSpeed: " .. tostring(walkspeed)
+        lblJumpPower.Text = "JumpPower: " .. tostring(jumppower)
+        lblFriend.Text    = "Friend: " .. (isFriend and "Yes" or "No")
+        lblESPTool.Text   = "Tool ESP: " .. (tool ~= "" and "Visible" or "None")
+        lblHighlight.Text = "Highlight: " .. (highlightObj and "On" or "Off")
+        if not highlightObj and camlockTarget.Character then
+            highlightObj = Instance.new("Highlight", camlockTarget.Character)
+            highlightObj.FillColor = Color3.fromRGB(187,134,252)
+            highlightObj.OutlineColor = Color3.fromRGB(240,240,255)
+            highlightObj.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+            highlightObj.FillTransparency = 0.72
+            highlightObj.OutlineTransparency = 0.1
+        end
+    end
+end
+
+-- Rainbow Outline effect
+spawn(function()
+    while true do
+        if highlightObj and rainbowOutline then
+            highlightObj.OutlineColor = Color3.fromHSV(tick()%5/5,1,1)
+        elseif highlightObj then
+            highlightObj.OutlineColor = Color3.fromRGB(240,240,255)
+        end
+        wait(0.1)
+    end
+end)
+
+local function getClosestPlayerToMouse()
+    local mouse = UserInputService:GetMouseLocation()
+    local camera = Workspace.CurrentCamera
+    local closest, closestDist = nil, math.huge
+    for _,plr in ipairs(Players:GetPlayers()) do
+        if plr ~= LocalPlayer and plr.Character and plr.Character:FindFirstChild("Head") then
+            local headPos, onScreen = camera:WorldToViewportPoint(plr.Character.Head.Position)
+            if onScreen then
+                local dist = (Vector2.new(headPos.X, headPos.Y) - Vector2.new(mouse.X, mouse.Y)).Magnitude
+                if dist < closestDist then
+                    closest = plr
+                    closestDist = dist
+                end
+            end
+        end
+    end
+    return closest
+end
+
+UserInputService.InputBegan:Connect(function(input, processed)
+    if input.KeyCode == Enum.KeyCode.C and not processed then
+        if camlockEnabled then
+            camlockEnabled = false
+            camlockTarget = nil
+            camlockStatus.Text = "Camlock: OFF"
+            infoFrame.Visible = false
+            if highlightObj then highlightObj:Destroy() highlightObj = nil end
+        else
+            local plr = getClosestPlayerToMouse()
+            if plr and plr.Character and plr.Character:FindFirstChild("Head") then
+                camlockTarget = plr
+                camlockEnabled = true
+                camlockStatus.Text = "Camlock: " .. plr.DisplayName
+                infoFrame.Visible = true
+                updateTargetInfo()
+            end
+        end
+    end
+end)
+
+RunService.RenderStepped:Connect(function()
+    if camlockEnabled and camlockTarget and camlockTarget.Character and camlockTarget.Character:FindFirstChild("Head") then
+        Workspace.CurrentCamera.CFrame = CFrame.new(Workspace.CurrentCamera.CFrame.Position, camlockTarget.Character.Head.Position)
+        infoFrame.Visible = true
+        updateTargetInfo()
+    elseif camlockEnabled then
+        camlockEnabled = false
+        camlockTarget = nil
+        camlockStatus.Text = "Camlock: OFF"
+        infoFrame.Visible = false
+        if highlightObj then highlightObj:Destroy() highlightObj = nil end
+    else
+        infoFrame.Visible = false
+        if highlightObj then highlightObj:Destroy() highlightObj = nil end
+    end
+end)
+
+-------------------------------
+-- Spectate, Unspectate, TP, Copy, Refresh, Rainbow Highlight
+-------------------------------
+spectateBtn.MouseButton1Click:Connect(function()
+    if camlockTarget and camlockTarget.Character and camlockTarget.Character:FindFirstChild("Head") then
+        Workspace.CurrentCamera.CameraSubject = camlockTarget.Character.Head
+        StarterGui:SetCore("SendNotification", {
+            Title = "Spectating";
+            Text = "Now spectating " .. camlockTarget.DisplayName;
+            Duration = 3;
+        })
+    end
+end)
+unspectateBtn.MouseButton1Click:Connect(function()
+    Workspace.CurrentCamera.CameraSubject = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") or Workspace.CurrentCamera
+    StarterGui:SetCore("SendNotification", {
+        Title = "Stopped Spectating";
+        Text = "Camera returned to yourself";
+        Duration = 2;
+    })
+end)
+tpBtn.MouseButton1Click:Connect(function()
+    if camlockTarget and camlockTarget.Character and camlockTarget.Character:FindFirstChild("Head") and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        LocalPlayer.Character.HumanoidRootPart.CFrame = camlockTarget.Character.Head.CFrame + Vector3.new(0,2,0)
+        StarterGui:SetCore("SendNotification", {
+            Title = "Teleported!";
+            Text = "You teleported to " .. camlockTarget.DisplayName;
+            Duration = 2;
+        })
+    end
+end)
+refreshBtn.MouseButton1Click:Connect(function()
+    updateTargetInfo()
+    StarterGui:SetCore("SendNotification", {
+        Title = "Info Refreshed";
+        Text = "Target info updated!";
+        Duration = 1.5;
+    })
+end)
+copyBtn.MouseButton1Click:Connect(function()
+    if camlockTarget then
+        local infoStr =
+            "Name: "..camlockTarget.Name.."\n"..
+            "DisplayName: "..camlockTarget.DisplayName.."\n"..
+            "UserId: "..camlockTarget.UserId.."\n"..
+            "AccountAge: "..camlockTarget.AccountAge.." days\n"..
+            lblHealth.Text.."\n"..
+            lblMaxHealth.Text.."\n"..
+            lblDistance.Text.."\n"..
+            lblTeam.Text.."\n"..
+            lblTool.Text.."\n"..
+            lblWalkSpeed.Text.."\n"..
+            lblJumpPower.Text.."\n"..
+            lblFriend.Text.."\n"..
+            lblESPTool.Text.."\n"..
+            lblHighlight.Text
+        setclipboard(infoStr)
+        StarterGui:SetCore("SendNotification", {
+            Title = "Copied!";
+            Text = "Target info copied to clipboard.";
+            Duration = 2;
+        })
+    end
+end)
+rainbowBtn.MouseButton1Click:Connect(function()
+    rainbowOutline = not rainbowOutline
+    rainbowBtn.Text = "Rainbow Outline: " .. (rainbowOutline and "ON" or "OFF")
+end)
+
+-------------------------------
+-- Kill All & Loop Heal
+-------------------------------
+killAllBtn.MouseButton1Click:Connect(function()
+    local tool = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Tool")
+    if tool and tool:FindFirstChild("Handle") then
+        local remote = tool:FindFirstChild("Remote") or tool:FindFirstChild("Shoot")
+        if remote and remote:IsA("RemoteEvent") then
+            for _,plr in ipairs(Players:GetPlayers()) do
+                if plr ~= LocalPlayer and plr.Character and plr.Character:FindFirstChild("Head") then
+                    remote:FireServer(tool.Handle.Position, plr.Character.Head.Position - tool.Handle.Position)
+                end
+            end
+            StarterGui:SetCore("SendNotification", {
+                Title = "Kill All";
+                Text = "Attempted to hit all player heads!";
+                Duration = 2;
+            })
+        end
+    end
+end)
+
+local healLoopEnabled = false
+healBtn.MouseButton1Click:Connect(function()
+    healLoopEnabled = not healLoopEnabled
+    healBtn.Text = "Loop Heal: " .. (healLoopEnabled and "ON" or "OFF")
+    if healLoopEnabled then
+        spawn(function()
+            while healLoopEnabled do
+                local human = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+                if human and human.Health < human.MaxHealth then
+                    human.Health = human.MaxHealth
+                end
+                wait(0.2)
+            end
+        end)
+    end
+end)
+
+-------------------------------
+-- Rapid Fire Logic (Extra Fast)
+-------------------------------
+local rapidFireEnabled = false
+local rapidFireConnection = nil
+
+rapidBtn.MouseButton1Click:Connect(function()
+    rapidFireEnabled = not rapidFireEnabled
+    rapidBtn.Text = "Rapid Fire: " .. (rapidFireEnabled and "ON" or "OFF")
+    TweenService:Create(rapidBtn, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {BackgroundColor3 = rapidFireEnabled and Color3.fromRGB(187,134,252) or Color3.fromRGB(116,72,192)}):Play()
+    if rapidFireEnabled then
+        rapidFireConnection = RunService.RenderStepped:Connect(function()
+            local tool = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Tool")
+            if tool and tool:FindFirstChild("Ammo") and tool:FindFirstChild("Handle") then
+                local remote = tool:FindFirstChild("Remote") or tool:FindFirstChild("Shoot")
+                if remote and remote:IsA("RemoteEvent") then
+                    pcall(function()
+                        remote:FireServer(tool.Handle.Position, tool.Handle.Position + tool.Handle.CFrame.lookVector * 1000)
+                    end)
+                end
+            end
+        end)
+    else
+        if rapidFireConnection then
+            rapidFireConnection:Disconnect()
+            rapidFireConnection = nil
+        end
+    end
+end)
+
+print("Hood Customs Cheat Extra Edition by Narsidze loaded: Purple theme, rapid fire, kill all, loop heal, FOV, spectate, highlight, ESP, and more!")
